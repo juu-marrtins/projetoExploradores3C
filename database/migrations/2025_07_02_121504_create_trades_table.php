@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('explorer_id_trader')
                     ->constrained('explorers', 'id');
-            $table->foreignId('buyer_id_trader', 'id')
-                    ->constrained('explorers');
+            $table->foreignId('buyer_id_trader')
+                    ->constrained('explorers', 'id');
             $table->string('status');
             $table->timestamps();
         });

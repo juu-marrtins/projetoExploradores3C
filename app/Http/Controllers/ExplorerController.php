@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Explorer;
+use App\Models\Inventory;
 
 class ExplorerController extends Controller
 {
@@ -12,8 +13,7 @@ class ExplorerController extends Controller
      */
     public function index()
     {
-        $explorers = Explorer::all();
-        return view('explorers.index', compact('explorers'));
+        return response()->json(Explorer::all());
     }
 
     /**
@@ -29,6 +29,8 @@ class ExplorerController extends Controller
         ]); 
 
         $explorer = Explorer::create($dataValidated);
+
+        Inventory::store($explorer['id']);
         return response()->json($explorer, 201);
     }
 
@@ -45,8 +47,17 @@ class ExplorerController extends Controller
      */
     public function update(Request $request, string $id){
         if(!$explorer = Explorer::find($id)){
-            //
+            return back()
+            ->response()
+            ->json(['message' => 'Explordor nao cadastrado no sistema.'], 201);
         }
+        $data = $request->only('latitude', 'longitude');
+
+        $data['longitude'] = $request->longitude;
+        $data['latitude'] = $request->latitude;
+        $explorer->update($data);
+
+        return response()->json(['success' => 'Explorer atualizado com sucesso.'], 201);
     }
 
     /**
