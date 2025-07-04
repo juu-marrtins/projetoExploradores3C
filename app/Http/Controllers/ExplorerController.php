@@ -24,8 +24,8 @@ class ExplorerController extends Controller
         $dataValidated = $request->validate([
             'name' => 'required|min:3|max:50',
             'age' => 'required|integer',
-            'latitude' => 'required|max:15',
-            'longitude' => 'required|max:15'
+            'latitude' => 'required|max:15|string',
+            'longitude' => 'required|max:15|string'
         ]); 
 
         $explorer = Explorer::create($dataValidated);
@@ -47,8 +47,7 @@ class ExplorerController extends Controller
      */
     public function update(Request $request, string $id){
         if(!$explorer = Explorer::find($id)){
-            return back()
-            ->response()
+            return response()
             ->json(['message' => 'Explordor nao cadastrado no sistema.'], 201);
         }
         $data = $request->only('latitude', 'longitude');

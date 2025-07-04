@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
-use App\Models\ItemCollection;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -24,10 +22,23 @@ class ItemController extends Controller
     {
         $dataValidated = $request->validate([
             'name' => 'required|min:3|max:255',
-            'value' => 'required'
+            'value' => 'required',
+            'explorer_id' => 'required|exists:explorers,id',
+            'latitude' => 'required|max:15|string',
+            'longitude' => 'required|max:15|string',
+            'quantity' => 'required|integer|min:1'
         ]);
 
-        $item = Item::create($dataValidated);
+        $item = Item::createWithColletion([
+            'name' => $dataValidated['name'],
+            'value' => $dataValidated['value']], 
+            [
+            'explorer_id' => $dataValidated['explorer_id'],
+            'latitude' => $dataValidated['latitude'],
+            'longitude' => $dataValidated['longitude'],
+            'quantity' => $dataValidated['quantity']
+            ]);
+
         return response()->json($item, 201);
     }
 

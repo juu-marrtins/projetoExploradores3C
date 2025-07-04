@@ -10,6 +10,20 @@ class Item extends Model
         'name',
         'value'
     ];
+
+    public static function createWithColletion(array $itemData, array $collectionData){
+        $item  = self::create($itemData);
+
+        ItemCollection::create([
+            'explorer_id' => $collectionData['explorer_id'],
+            'item_id' => $item->id,
+            'quantity' => $collectionData['quantity'],
+            'latitude' => $collectionData['latitude'],
+            'longitude' => $collectionData['longitude']
+        ]);
+
+        return $item;
+    }
     public function tradeItems(){
         return $this->hasMany(TradeItem::class);
     }
