@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inventory;
 use Illuminate\Http\Request;
 
-class InventoryController extends Controller
+class ItemCollectionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,14 +19,7 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        $dataValidated = $request->validate([
-            'explorer_id_owner' => 'required',
-            'item_id' => 'sometimes|integer|min:1',
-            'quantity' => 'sometimes|integer|min:1'
-        ]);
-
-        $inventory = Inventory::create($dataValidated);
-        return response()->json($inventory, 201);
+        //
     }
 
     /**

@@ -13,6 +13,7 @@ class ItemCollection extends Model
         'latitude',
         'longitude'
     ];
+
     
     public function explorer(){
         return $this->belongsTo(Explorer::class);

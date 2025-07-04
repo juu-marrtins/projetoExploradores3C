@@ -10,7 +10,6 @@ class Item extends Model
         'name',
         'value'
     ];
-
     public function tradeItems(){
         return $this->hasMany(TradeItem::class);
     }
