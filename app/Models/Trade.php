@@ -9,8 +9,7 @@ class Trade extends Model
 
     protected $fillable = [
         'explorer_id_trader',
-        'buyer_id_trader',
-        'status'
+        'explorer_id_buyer',
     ]; 
 
     public function tradeItems(){
@@ -22,7 +21,7 @@ class Trade extends Model
     }
 
     public function explorerReceiver(){
-        return $this->belongsTo(Explorer::class, 'buyer_id_trader');
+        return $this->belongsTo(Explorer::class, 'explorer_id_buyer');
     }
 
 }

@@ -4,18 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Explorer;
-use App\Models\Inventory;
 
 class ExplorerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return response()->json(Explorer::all());
-    }
+    public function index(string $id)
+    {   
+        $explorer = Explorer::with('inventories')->find($id); 
+        //acha as linhas em inventarios e explorer onde o id seja o que foi passado na rota
 
+        if (!$explorer) {
+            return response()->json(['message' => 'Explorador nao cadastrado'], 404);
+        }
+
+        return response()->json($explorer, 201);
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -30,7 +35,6 @@ class ExplorerController extends Controller
 
         $explorer = Explorer::create($dataValidated);
 
-        Inventory::store($explorer['id']);
         return response()->json($explorer, 201);
     }
 

@@ -22,8 +22,8 @@ class InventoryController extends Controller
     {
         $dataValidated = $request->validate([
             'explorer_id_owner' => 'required',
-            'item_id' => 'sometimes|integer|min:1',
-            'quantity' => 'sometimes|integer|min:1'
+            'item_id' => 'integer|min:1',
+            'quantity' => 'integer|min:1'
         ]);
 
         $inventory = Inventory::create($dataValidated);

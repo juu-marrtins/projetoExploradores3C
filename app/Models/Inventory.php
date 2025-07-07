@@ -19,7 +19,7 @@ class Inventory extends Model
             'quantity' => null
         ]);
     }
-
+    
     public function items(){
         return $this->belongsToMany(Item::class);
     }

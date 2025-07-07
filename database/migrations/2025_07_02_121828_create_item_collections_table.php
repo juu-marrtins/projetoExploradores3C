@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('item_collections', function (Blueprint $table) {
             $table->foreignId('explorer_id')
-                    ->constrained('explorers');
+                    ->constrained('explorers', 'id');
             $table->foreignId('item_id')
-                    ->constrained('items');
+                    ->constrained('items', 'id');
             $table->integer('quantity');
             $table->string('latitude');
             $table->string('longitude');

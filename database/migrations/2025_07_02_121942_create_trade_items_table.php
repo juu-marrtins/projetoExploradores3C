@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('trade_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('trade_id')
-                    ->constrained('trades');
-            $table->foreignId('item_id')
-                    ->constrained('items');
-            $table->foreignId('explorer_id_trader')
-                    ->constrained('explorers');
-            $table->integer('quantity');
+                    ->constrained('trades', 'id');
+            $table->foreignId('item_id_trader')
+                    ->constrained('items', 'id');
+            $table->foreignId('item_id_buyer')
+                    ->constrained('items', 'id');
+            $table->integer('quantity_trader');
+            $table->integer('quantity_buyer');
             $table->timestamps();
         });
     }

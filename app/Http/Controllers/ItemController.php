@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventory;
 use App\Models\Item;
 use Illuminate\Http\Request;
 
@@ -39,6 +40,12 @@ class ItemController extends Controller
             'quantity' => $dataValidated['quantity']
             ]);
 
+        Inventory::create([
+                'explorer_id_owner' => $dataValidated['explorer_id'],
+                'item_id' => $item->id,
+                'quantity' =>$dataValidated['quantity']
+            ]);
+
         return response()->json($item, 201);
     }
 
@@ -54,7 +61,7 @@ class ItemController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
+    {  
         //
     }
 

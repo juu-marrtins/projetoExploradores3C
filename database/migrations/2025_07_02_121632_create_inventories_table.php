@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->foreignId('explorer_id_owner')
-                    ->constrained('explorers');
+                    ->constrained('explorers', 'id');
             $table->foreignId('item_id')
-                    ->constrained('items');
+                    ->constrained('items', 'id');
             $table->integer('quantity');
             $table->timestamps();
         });

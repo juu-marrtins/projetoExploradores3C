@@ -19,7 +19,7 @@ class Explorer extends Model
     }
 
     public function explorerReceiver(){
-        return $this->belongsTo(Explorer::class, 'buyer_id_trader');
+        return $this->belongsTo(Explorer::class, 'explorer_id_buyer');
     }
 
     public function tradeItems(){
@@ -30,7 +30,7 @@ class Explorer extends Model
         return $this->hasMany(ItemCollection::class);
     }
 
-    public function inventory(){
+    public function inventories(){
         return $this->hasMany(Inventory::class, 'explorer_id_owner');
     }
 }
