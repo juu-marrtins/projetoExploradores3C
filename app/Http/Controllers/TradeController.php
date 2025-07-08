@@ -2,24 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTradeRequest;
 use App\Models\Inventory;
 use App\Models\Item;
 use App\Models\Trade;
 use App\Models\TradeItem;
-use Illuminate\Http\Request;
 
 class TradeController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreTradeRequest $request)
     {
-        $dataValidated = $request->validate([
-            'explorer_id_trader' => 'required|integer|exists:explorers,id',
-            'explorer_id_buyer' => 'required|integer|exists:explorers,id',
-            'item_id_trader' => 'required|integer|exists:items,id',
-            'quantity_trader' => 'required|integer|min:1',
-            'item_id_buyer' => 'required|integer|exists:items,id',
-            'quantity_buyer' => 'required|integer|min:1'
-        ]);
+        $dataValidated = $request->validated();
         
         if($dataValidated['explorer_id_trader'] == $dataValidated['explorer_id_buyer']){
             return response()->json(['message' => 'Os Exploradores nao podem ser iguais']);

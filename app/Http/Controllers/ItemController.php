@@ -2,24 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreItemRequest;
 use App\Models\Inventory;
 use App\Models\Item;
-use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
-        $dataValidated = $request->validate([
-            'name' => 'required|min:3|max:255',
-            'value' => 'required',
-            'explorer_id' => 'required|exists:explorers,id',
-            'latitude' => 'required|max:15|string',
-            'longitude' => 'required|max:15|string',
-            'quantity' => 'required|integer|min:1'
-        ]);
+        $dataValidated = $request->validated();
 
-        $item = Item::createWithColletion([
+        $item = Item::createWithCollection([
             'name' => $dataValidated['name'],
             'value' => $dataValidated['value']], 
             [

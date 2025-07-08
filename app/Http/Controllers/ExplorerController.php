@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreExploreRequest;
+use App\Http\Requests\UpdateExplorerRequest;
 use App\Models\Explorer;
 
 class ExplorerController extends Controller
@@ -18,29 +19,21 @@ class ExplorerController extends Controller
         return response()->json($explorer, 201);
     }
 
-    public function store(Request $request)
+    public function store(StoreExploreRequest $request)
     {
-        $dataValidated = $request->validate([
-            'name' => 'required|min:3|max:50',
-            'age' => 'required|integer',
-            'latitude' => 'required|max:15|string',
-            'longitude' => 'required|max:15|string'
-        ]); 
+        $dataValidated = $request->validated(); 
 
         $explorer = Explorer::create($dataValidated);
 
         return response()->json($explorer, 201);
     }
 
-    public function update(Request $request, string $id){
+    public function update(UpdateExplorerRequest $request, string $id){
         if(!$explorer = Explorer::find($id)){
             return response()
             ->json(['message' => 'Explordor nao cadastrado no sistema.'], 201);
         }
-        $data = $request->only('latitude', 'longitude');
-
-        $data['longitude'] = $request->longitude;
-        $data['latitude'] = $request->latitude;
+        $data = $request->validated();
         $explorer->update($data);
 
         return response()->json(['success' => 'Explorer atualizado com sucesso.'], 201);

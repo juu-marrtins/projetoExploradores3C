@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreInventoryRequest;
 use App\Models\Inventory;
-use Illuminate\Http\Request;
 
 class InventoryController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreInventoryRequest $request)
     {
-        $dataValidated = $request->validate([
-            'explorer_id_owner' => 'required',
-            'item_id' => 'integer|min:1',
-            'quantity' => 'integer|min:1'
-        ]);
+        $dataValidated = $request->validated();
 
         $inventory = Inventory::create($dataValidated);
         return response()->json($inventory, 201);

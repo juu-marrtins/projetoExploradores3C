@@ -11,7 +11,7 @@ class Item extends Model
         'value'
     ];
 
-    public static function createWithColletion(array $itemData, array $collectionData){
+    public static function createWithCollection(array $itemData, array $collectionData){
         $item  = self::create($itemData);
 
         ItemCollection::create([
