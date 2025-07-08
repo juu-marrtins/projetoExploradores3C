@@ -17,7 +17,6 @@ return new class extends Migration
                     ->constrained('explorers', 'id');
             $table->foreignId('explorer_id_buyer')
                     ->constrained('explorers', 'id');
-            $table->string('status')->default('Ativo');
             $table->timestamps();
         });
     }

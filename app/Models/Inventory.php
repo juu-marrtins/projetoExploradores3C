@@ -12,7 +12,7 @@ class Inventory extends Model
             'quantity'
         ]; 
 
-    public static function store($explorer_id){ // vai permitir criar um inventario vazio
+    public static function store($explorer_id){ 
         return self::create([
             'explorer_id_owner' => $explorer_id,
             'item_id' => null,

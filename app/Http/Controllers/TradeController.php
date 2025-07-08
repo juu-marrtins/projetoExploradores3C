@@ -10,17 +10,6 @@ use Illuminate\Http\Request;
 
 class TradeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $dataValidated = $request->validate([
@@ -76,7 +65,7 @@ class TradeController extends Controller
 
         if ($inventoryReceiver != null) {
             $inventoryReceiver->quantity = $inventoryReceiver->quantity + $dataValidated['quantity_trader'];
-            $inventoryReceiver->save();
+            $inventoryReceiver->save(); // db
         } else {
             Inventory::create([
                 'explorer_id_owner' => $dataValidated['explorer_id_buyer'],
@@ -85,29 +74,23 @@ class TradeController extends Controller
             ]);
         }
 
-        return response()->json(['message' => 'Troca realizada com sucesso.'], 201);
-    }
+        Inventory::where('explorer_id_owner', $dataValidated['explorer_id_buyer'])
+                ->where('item_id', $dataValidated['item_id_buyer'])
+                ->decrement('quantity', $dataValidated['quantity_buyer']);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request){
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+        $inventoryReceiverTrader = Inventory::where('explorer_id_owner', $dataValidated['explorer_id_trader'])
+                                        ->where('item_id', $dataValidated['item_id_buyer'])
+                                        ->first();
+        if ($inventoryReceiverTrader != null) {
+            $inventoryReceiverTrader->quantity += $dataValidated['quantity_buyer'];
+            $inventoryReceiverTrader->save(); //db
+        } else {
+            Inventory::create([
+                'explorer_id_owner' => $dataValidated['explorer_id_trader'],
+                'item_id' => $dataValidated['item_id_buyer'],
+                'quantity' => $dataValidated['quantity_buyer'],
+            ]);                                   
+            return response()->json(['message' => 'Troca realizada com sucesso.'], 201);
+        }
+    }      
 }
