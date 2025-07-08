@@ -15,6 +15,7 @@ Route::put('/explorers/{id}', [ExplorerController::class, 'update']);
 Route::post('/explorers', [ExplorerController::class, 'store']);
 
 Route::get('/home/{id}', [ExplorerController::class, 'index']); //listagem 
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');

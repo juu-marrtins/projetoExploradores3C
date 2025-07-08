@@ -48,6 +48,13 @@ class TradeController extends Controller
             return response()->json(['message' => 'O trader não possui quantidade suficiente do item.']);
         }
 
+        $inventoryBuyer = Inventory::where('explorer_id_owner', $dataValidated['explorer_id_buyer'])
+                                ->where('item_id', $dataValidated['item_id_buyer'])
+                                ->first();
+        if (!$inventoryBuyer || $inventoryBuyer->quantity < $dataValidated['quantity_buyer']) {
+            return response()->json(['message' => 'O buyer não possui quantidade suficiente do item.']);
+        }
+
         Inventory::where('explorer_id_owner', $dataValidated['explorer_id_trader'])
                 ->where('item_id', $dataValidated['item_id_trader'])
                 ->decrement('quantity', $dataValidated['quantity_trader']); //drecrement usado para remover
